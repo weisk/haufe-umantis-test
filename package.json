@@ -4,19 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "old.serve:dev": "nodemon server --exec babel-node",
     "old.serve": "babel-node server",
 
     "build": "tsc -p client/",
     "build:watch": "tsc -p client/ -w",
+
     "serve": "lite-server -c=bs-config.json",
+
     "prestart": "npm run build",
     "start": "concurrently \"npm run build:watch\" \"npm run serve\"",
+
     "pretest": "npm run build",
     "test": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\"",
+
     "pretest:once": "npm run build",
     "test:once": "karma start karma.conf.js --single-run",
+
     "lint": "tslint ./client/**/*.ts -t verbose"
   },
   "author": "Francesc Mallafre <franml87@gmail.com>",
@@ -25,6 +29,7 @@
     "express": "^4.15.3",
     "lodash": "^4.17.4",
     "morgan": "^1.8.2",
+
     "@angular/common": "~4.0.0",
     "@angular/compiler": "~4.0.0",
     "@angular/core": "~4.0.0",
@@ -33,6 +38,7 @@
     "@angular/platform-browser": "~4.0.0",
     "@angular/platform-browser-dynamic": "~4.0.0",
     "@angular/router": "~4.0.0",
+
     "angular-in-memory-web-api": "~0.3.0",
     "systemjs": "0.19.40",
     "core-js": "^2.4.1",

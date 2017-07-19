@@ -4,3 +4,6 @@ npm-debug.log
 debug.log
 client/**/*.js
 client/**/*.map
+!client/systemjs.config.extras.js
+!client/systemjs.config.js
+!client/systemjs-angular-loader.js
