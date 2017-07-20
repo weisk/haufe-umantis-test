@@ -9,4 +9,7 @@ app.set('port', port);
 app.use(logger('dev'));
 app.use(router);
 
-app.listen(port, () => console.log(`listening on port ${port}`));
+export default function() {
+  app.listen(port, () => console.log(`[api] listening on port ${port}`));
+}
+

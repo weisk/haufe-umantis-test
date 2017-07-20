@@ -1,1 +1,15 @@
-<h3>Detaillll</h3>
+<h3>Detail view</h3>
+<div class="book" *ngIf="book">
+  <div class="details">
+    <b>Name: </b> {{ book.name }}<br/>
+    <b>Author: </b> {{ book.author }}<br/>
+    <b>Date: </b> {{ book.date }}<br/>
+    <b>Genre: </b> {{ book.genre }}<br/>
+    <b>Summary: </b>
+    <p>{{ book.summary }}</p>
+  </div>
+  <img [src]="'http://lorempixel.com/400/300/abstract/' + book.name"/>
+</div>
+<div class="row" style="justify-content: flex-end;">
+  <button class="inverted" routerLink="/list">Back</button>
+</div>

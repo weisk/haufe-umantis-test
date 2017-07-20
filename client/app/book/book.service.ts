@@ -7,7 +7,7 @@ import { Book, BookExtended } from './book';
 
 @Injectable()
 export class BookService {
-  private baseUrl = 'books';
+  private baseUrl = 'http://mint:4000/api/books';
   private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http) {}
@@ -21,7 +21,7 @@ export class BookService {
     return this.http
       .get(this.baseUrl)
       .toPromise()
-      .then(res => res.json().data as Book[])
+      .then(res => res.json() as Book[])
       .catch(this.handleError);
   }
 
@@ -32,7 +32,7 @@ export class BookService {
     return this.http
       .get(url)
       .toPromise()
-      .then(res => res.json().data as BookExtended)
+      .then(res => res.json() as BookExtended)
       .catch(this.handleError);
   }
 

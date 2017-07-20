@@ -2,8 +2,22 @@ import gulp from 'gulp';
 import tsc from 'gulp-typescript';
 import del from 'del';
 import browserSync from 'browser-sync';
+import historyApiFallback from 'connect-history-api-fallback';
 
-const server = browserSync.create();
+import server from './server';
+
+const bsServer = browserSync.create();
+const bsConfig = {
+  server: {
+    baseDir: './public',
+    middleware: [ historyApiFallback() ],
+    routes: {
+      "/node_modules": "node_modules"
+    }
+  },
+  port: process.env.PORT || 3000,
+  open: false
+};
 
 const paths = {
   tsConfig: './client/tsconfig.json',
@@ -18,13 +32,13 @@ const clean = () => del(['./public/*']);
 function assets() {
   return gulp.src(paths.assets)
     .pipe(gulp.dest(paths.dest))
-    .pipe(server.stream());
+    .pipe(bsServer.stream());
 }
 
 function styles() {
   return gulp.src(paths.styles)
     .pipe(gulp.dest(paths.dest))
-    .pipe(server.stream());
+    .pipe(bsServer.stream());
 }
 
 function scripts() {
@@ -35,7 +49,7 @@ function scripts() {
   return tsResult
     .js
     .pipe(gulp.dest(paths.dest))
-    .pipe(server.stream());
+    .pipe(bsServer.stream());
 }
 
 function watch() {
@@ -44,17 +58,12 @@ function watch() {
   gulp.watch(paths.assets, assets);
 }
 
+function serve_dev() {
+  return bsServer.init(bsConfig);
+}
+
 function serve() {
-  server.init({
-    server: {
-      baseDir: './public',
-      routes: {
-        "/node_modules": "node_modules"
-      }
-    },
-    port: process.env.PORT || 3000,
-    open: false,
-  });
+  server();
 }
 
 const build = gulp.series(
@@ -70,6 +79,7 @@ const dev = gulp.series(
   build,
   gulp.parallel(
     watch,
+    serve_dev,
     serve
   )
 );
@@ -77,7 +87,8 @@ const dev = gulp.series(
 export {
   clean,
   build,
-  dev
+  dev,
+  serve
 };
 
-export default build;
+export default serve;
