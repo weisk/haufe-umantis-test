@@ -8,7 +8,7 @@ const server = browserSync.create();
 const paths = {
   tsConfig: './client/tsconfig.json',
   assets: './client/**/*.{html,js}',
-  styles: './client/**/*.css',
+  styles: './client/styles.css',
   scripts: './client/**/*.ts',
   dest: './public'
 };
@@ -36,7 +36,13 @@ function scripts() {
 
 function watch() {
   gulp.watch(paths.styles, styles);
-  gulp.watch(paths.scripts, scripts).on('change', server.reload);
+
+  gulp.watch([
+    paths.scripts,
+    './client/**/*.css',
+    '!./client/styles.css'
+  ], scripts).on('change', server.reload);
+
   gulp.watch(paths.assets, assets).on('change', server.reload);
 }
 
