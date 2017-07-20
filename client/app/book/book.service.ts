@@ -7,7 +7,7 @@ import { Book, BookExtended } from './book';
 
 @Injectable()
 export class BookService {
-  private baseUrl = 'http://mint:4000/api/books';
+  private baseUrl = '/api/books';
   private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http) {}
