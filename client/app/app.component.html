@@ -1,0 +1,6 @@
+<h1>{{title}}</h1>
+<nav>
+  <a routerLink="/list" routerLinkActive="active">List</a>
+  <a [routerLink]="['/detail', 1]" routerLinkActive="active">detail</a>
+</nav>
+<router-outlet></router-outlet>

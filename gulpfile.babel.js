@@ -8,7 +8,7 @@ const server = browserSync.create();
 const paths = {
   tsConfig: './client/tsconfig.json',
   assets: './client/**/*.{html,js}',
-  styles: './client/styles.css',
+  styles: './client/**/*.css',
   scripts: './client/**/*.ts',
   dest: './public'
 };
@@ -17,7 +17,8 @@ const clean = () => del(['./public/*']);
 
 function assets() {
   return gulp.src(paths.assets)
-    .pipe(gulp.dest(paths.dest));
+    .pipe(gulp.dest(paths.dest))
+    .pipe(server.stream());
 }
 
 function styles() {
@@ -31,19 +32,16 @@ function scripts() {
   const tsResult = gulp.src(paths.scripts)
     .pipe(tsProject());
 
-  return tsResult.js.pipe(gulp.dest(paths.dest));
+  return tsResult
+    .js
+    .pipe(gulp.dest(paths.dest))
+    .pipe(server.stream());
 }
 
 function watch() {
   gulp.watch(paths.styles, styles);
-
-  gulp.watch([
-    paths.scripts,
-    './client/**/*.css',
-    '!./client/styles.css'
-  ], scripts).on('change', server.reload);
-
-  gulp.watch(paths.assets, assets).on('change', server.reload);
+  gulp.watch(paths.scripts, scripts);
+  gulp.watch(paths.assets, assets);
 }
 
 function serve() {
