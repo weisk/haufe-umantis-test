@@ -1,8 +1,14 @@
 import gulp from 'gulp';
+import tsc from 'gulp-typescript';
 import del from 'del';
+import browserSync from 'browser-sync';
+
+const server = browserSync.create();
 
 const paths = {
-  assets: './client/**/*.{css,html}',
+  tsConfig: './client/tsconfig.json',
+  assets: './client/**/*.{html,js}',
+  styles: './client/**/*.css',
   scripts: './client/**/*.ts',
   dest: './public'
 };
@@ -14,22 +20,60 @@ function assets() {
     .pipe(gulp.dest(paths.dest));
 }
 
+function styles() {
+  return gulp.src(paths.styles)
+    .pipe(gulp.dest(paths.dest))
+    .pipe(server.stream());
+}
+
 function scripts() {
-  return gulp.src(paths.scripts)
-    .pipe(gulp.dest(paths.dest));
+  const tsProject = tsc.createProject(paths.tsConfig);
+  const tsResult = gulp.src(paths.scripts)
+    .pipe(tsProject());
+
+  return tsResult.js.pipe(gulp.dest(paths.dest));
 }
 
 function watch() {
-  gulp.watch(paths.assets, assets);
-  gulp.watch(paths.scripts, scripts);
+  gulp.watch(paths.styles, styles);
+  gulp.watch(paths.scripts, scripts).on('change', server.reload);
+  gulp.watch(paths.assets, assets).on('change', server.reload);
 }
 
-const build = gulp.series(clean, gulp.parallel(assets, scripts));
+function serve() {
+  server.init({
+    server: {
+      baseDir: './public',
+      routes: {
+        "/node_modules": "node_modules"
+      }
+    },
+    port: process.env.PORT || 3000,
+    open: false,
+  });
+}
+
+const build = gulp.series(
+  clean,
+  gulp.parallel(
+    assets,
+    styles,
+    scripts
+  )
+);
+
+const dev = gulp.series(
+  build,
+  gulp.parallel(
+    watch,
+    serve
+  )
+);
 
 export {
   clean,
   build,
-  watch
+  dev
 };
 
 export default build;
