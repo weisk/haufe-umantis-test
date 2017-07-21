@@ -7,7 +7,7 @@ import books from './books'
 const router = express.Router();
 
 const list = _.map(books, (book) => {
-  return { id: book.id, name: book.name };
+  return { id: book.id, name: book.name, genre: book.genre };
 });
 
 // enable CORS middleware only on development

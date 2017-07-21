@@ -1,4 +1,23 @@
+h3 {
+  text-align: center;
+}
+
 .book {
   display: flex;
   flex-direction: row;
+}
+
+@media (max-width: 599px) {
+  .book {
+    flex-direction: column
+  }
+}
+
+.details {
+  margin-right: 10px;
+}
+
+.title {
+  font-weight: bold;
+  margin-right: 10px;
 }

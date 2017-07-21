@@ -67,3 +67,7 @@ button.inverted:hover {
     font-size: 14px;
   }
 }
+
+.spacer-vertical {
+  height: 10px;
+}

@@ -1,15 +1,19 @@
-<h3>Detail view</h3>
+<h3>Book Detail</h3>
 <div class="book" *ngIf="book">
   <div class="details">
-    <b>Name: </b> {{ book.name }}<br/>
-    <b>Author: </b> {{ book.author }}<br/>
-    <b>Date: </b> {{ book.date }}<br/>
-    <b>Genre: </b> {{ book.genre }}<br/>
-    <b>Summary: </b>
-    <p>{{ book.summary }}</p>
+    <div class="row"><span class="title">Name:</span><span class="content">{{book.name}}</span></div>
+    <div class="row"><span class="title">Author:</span><span class="content">{{book.author}}</span></div>
+    <div class="row"><span class="title">Date:</span><span class="content">{{book.date}}</span></div>
+    <div class="row"><span class="title">Genre:</span><span class="content">{{book.genre}}</span></div>
+    <div class="spacer-vertical"></div>
+    <div class="col">
+      <span class="title">Summary:</span>
+      <span class="content">{{book.summary}}</span>
+    </div>
   </div>
   <img [src]="'http://lorempixel.com/400/300/abstract/' + book.name"/>
 </div>
+<div class="spacer-vertical"></div>
 <div class="row" style="justify-content: flex-end;">
   <button class="inverted" routerLink="/list">Back</button>
 </div>
